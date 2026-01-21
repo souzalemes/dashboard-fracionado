@@ -32,11 +32,11 @@ def load_data():
     ]
 
     df = df.dropna(subset=["CTE"])
-    # Limpeza da coluna Filial
-df["Filial"] = df["Filial"].astype(str).str.strip()
-df = df[df["Filial"].notna()]
-df = df[df["Filial"] != ""]
 
+    # Limpeza da coluna Filial
+    df["Filial"] = df["Filial"].astype(str).str.strip()
+    df = df[df["Filial"].notna()]
+    df = df[df["Filial"] != ""]
 
     df["Data_Coleta"] = pd.to_datetime(df["Data_Coleta"], errors="coerce")
     df["Data_Chegada"] = pd.to_datetime(df["Data_Chegada"], errors="coerce")
@@ -44,6 +44,7 @@ df = df[df["Filial"] != ""]
     df["Atrasado"] = df["Atraso"].astype(str).str.upper().str.contains("SIM")
 
     return df
+
 
 df = load_data()
 
