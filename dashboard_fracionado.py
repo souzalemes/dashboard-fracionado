@@ -32,6 +32,11 @@ def load_data():
     ]
 
     df = df.dropna(subset=["CTE"])
+    # Limpeza da coluna Filial
+df["Filial"] = df["Filial"].astype(str).str.strip()
+df = df[df["Filial"].notna()]
+df = df[df["Filial"] != ""]
+
 
     df["Data_Coleta"] = pd.to_datetime(df["Data_Coleta"], errors="coerce")
     df["Data_Chegada"] = pd.to_datetime(df["Data_Chegada"], errors="coerce")
@@ -46,10 +51,13 @@ st.title("📊 Dashboard Gerencial – Transporte Fracionado")
 
 # ===== FILTRO =====
 st.sidebar.header("Filtros")
+lista_filiais = sorted(df["Filial"].dropna().unique().tolist())
+
 filial = st.sidebar.multiselect(
     "Filial (Sigla CTE)",
-    sorted(df["Filial"].unique())
+    lista_filiais
 )
+
 
 if filial:
     df = df[df["Filial"].isin(filial)]
